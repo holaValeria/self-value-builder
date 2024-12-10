@@ -1,0 +1,1051 @@
+<!DOCTYPE html> <!-- 声明文档类型为HTML5 -->
+<html lang="zh"> <!-- HTML文档开始，设置语言为中文 -->
+<head> <!-- 头部区域，包含页面的元信息和资源引用 -->
+    <meta charset="UTF-8"> <!-- 设置字符编码为UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 设置移动设备的视口 -->
+    <title>自我价值构建器</title> <!-- 设置页面标题 -->
+    <!-- 引入Bootstrap CSS框架 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 引入Google字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan_Zheng&family=Noto+Serif+SC&display=swap" rel="stylesheet">
+    <style>
+        /* 设置页面整体样式 */
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #fff5e6;
+            color: #5d4037;
+        }
+        
+        /* 容器样式 */
+        .container {
+            background-color: #fff9f0;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-top: 50px;
+        }
+        h1 { /* 标题样式 */
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #ff7043;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .card { /* 卡片样式 */
+            background-color: #ffffff;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease; /* 过渡动画效果 */
+        }
+        .card:hover { /* 卡片悬停效果 */
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        .card-body { /* 卡片内容区域样式 */
+            padding: 25px;
+        }
+        .btn-primary { /* 主要按钮样式 */
+            background-color: #ff7043;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover { /* 按钮悬停效果 */
+            background-color: #f4511e;
+            transform: scale(1.05);
+        }
+        #recent-records { /* 最近记录区域样式 */
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .modal-content { /* 模态���样式 */
+            background-color: #fff9f0;
+            border-radius: 15px;
+        }
+        .modal-header { /* 模态框头部样式 */
+            border-bottom: none;
+        }
+        .modal-footer { /* 模态框底部样式 */
+            border-top: none;
+        }
+        .form-control { /* 表单控件样式 */
+            background-color: #ffffff;
+            border: 1px solid #ffd8a8;
+            border-radius: 10px;
+        }
+        .form-control:focus { /* 表单控件焦点样式 */
+            border-color: #ff7043;
+            box-shadow: 0 0 0 0.2rem rgba(255,112,67,0.25);
+        }
+        .dedication { /* 献词样式 */
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #ff7043;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 24px;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .welcome-screen {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .feature-list {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .feature-list li {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        
+        .guide-screen {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .dimension-guide {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .guide-tips {
+            background-color: #fff5e6;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .progress {
+            height: 8px;
+            border-radius: 4px;
+        }
+        
+        .progress-bar {
+            background-color: #ff7043;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body> <!-- 页面主体开始 -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="text-center mb-5">
+            <h1 class="display-4">欢迎使用自我价值构建器</h1>
+            <p class="lead">这是一个帮助你记录和构建自我价值的工具</p>
+            <hr class="my-4">
+            <div class="feature-list mb-4">
+                <h5>主要功能：</h5>
+                <ul class="list-unstyled">
+                    <li>🎯 自定义你的价值维度</li>
+                    <li>📝 每日打卡记录</li>
+                    <li>🌟 跟踪连续打���</li>
+                    <li>📊 查看历史记录</li>
+                </ul>
+            </div>
+            <button class="btn btn-primary btn-lg" onclick="startGuide()">开始使用</button>
+        </div>
+    </div>
+
+    <!-- 添加维度引导界面 -->
+    <div class="guide-screen d-none" id="guideScreen">
+        <div class="text-center mb-4">
+            <h2>创建你的价值维度</h2>
+            <p class="text-muted">让我们一起定义对你来说重要的生活维度</p>
+        </div>
+        
+        <div class="dimension-guide">
+            <div class="progress mb-4">
+                <div class="progress-bar" role="progressbar" style="width: 0%" id="guideProgress"></div>
+            </div>
+            
+            <div class="dimension-form">
+                <h4 class="mb-3">维度 <span id="currentStep">1</span>/3</h4>
+                <div class="mb-3">
+                    <label class="form-label">维度名称</label>
+                    <input type="text" class="form-control" id="dimensionName" placeholder="例如：健康、学习、关系...">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">维度描述</label>
+                    <textarea class="form-control" id="dimensionDesc" rows="3" 
+                        placeholder="描述这个维度对你的意义..."></textarea>
+                </div>
+                <div class="guide-tips mb-4">
+                    <h6>💡 小贴士：</h6>
+                    <p id="guideTips" class="text-muted">
+                        选择一个对你来说重要的生活领域，它可以是健康、学习、关系等任何你想要持续关注和改善的方面。
+                    </p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-outline-secondary" onclick="previousStep()" id="prevBtn" disabled>上一步</button>
+                    <button class="btn btn-primary" onclick="nextStep()" id="nextBtn">下一步</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="encouragement-guide d-none" id="encouragementGuide">
+        <div class="text-center mb-4">
+            <h2>选择你的鼓励语</h2>
+            <p class="text-muted">让我们来选择打卡时显示的鼓励语类型</p>
+        </div>
+        
+        <div class="dimension-guide">
+            <div class="progress mb-4">
+                <div class="progress-bar" role="progressbar" style="width: 100%" id="guideProgress"></div>
+            </div>
+            
+            <div class="encouragement-choice mb-4">
+                <h4 class="mb-3">选择鼓励语类型</h4>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5>默认鼓励语</h5>
+                        <p class="text-muted">使用系统提供的温暖鼓励语</p>
+                        <button class="btn btn-outline-primary" onclick="chooseDefaultEncouragements()">
+                            选择默认鼓励语
+                        </button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5>自定义鼓励语</h5>
+                        <p class="text-muted">创建属于你的专属鼓励语</p>
+                        <button class="btn btn-outline-primary" onclick="chooseCustomEncouragements()">
+                            创建自定义鼓励语
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="custom-encouragement-guide d-none" id="customEncouragementGuide">
+        <div class="text-center mb-4">
+            <h2>创建你的鼓励语</h2>
+            <p class="text-muted">添加至少3条属于你的专属鼓励语</p>
+        </div>
+        
+        <div class="dimension-guide">
+            <div class="custom-encouragements-list mb-4" id="customEncouragementsList">
+                <!-- 自定义鼓励语列表将在这里动态生成 -->
+            </div>
+            
+            <button class="btn btn-outline-primary mb-3" onclick="addCustomEncouragementInGuide()">
+                添加鼓励语
+            </button>
+            
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-outline-secondary" onclick="backToEncouragementChoice()">
+                    返回
+                </button>
+                <button class="btn btn-primary" onclick="finishCustomEncouragements()" id="finishEncouragementBtn">
+                    完成
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 修改主界面div，添加id -->
+    <div class="main-screen d-none" id="mainScreen">
+        <div class="container py-5"> <!-- 主容器 -->
+            <h1>自我价值构建器</h1>
+            
+            <div class="text-end mb-4">
+                <button class="btn btn-outline-primary me-2" onclick="showEncouragementManager()">
+                    管理鼓励语
+                </button>
+                <button class="btn btn-outline-primary" onclick="showDimensionManager()">
+                    管理维度
+                </button>
+            </div>
+            
+            <div class="row g-4 mb-5"> <!-- 打卡卡片 -->
+                <div class="col-md-4"> <!-- 饮食健康卡片 -->
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h3>饮食健康</h3>
+                            <p class="text-muted">记录今天的饮食状况</p>
+                            <button class="btn btn-primary" onclick="checkIn('diet')">打卡</button>
+                            <p class="mt-3">已连续打卡: <span id="diet-streak">0</span> 天</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4"> <!-- 作息规律卡片 -->
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h3>运动与作息</h3>
+                            <p class="text-muted">记录今天的运动和作息情况</p>
+                            <button class="btn btn-primary" onclick="checkIn('sleep')">打卡</button>
+                            <p class="mt-3">已连续打卡: <span id="sleep-streak">0</span> 天</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4"> <!-- 情绪管理卡片 -->
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h3>情绪管理</h3>
+                            <p class="text-muted">记录今天的情绪状态</p>
+                            <button class="btn btn-primary" onclick="checkIn('mood')">打卡</button>
+                            <p class="mt-3">已连续打卡: <span id="mood-streak">0</span> 天</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5"> <!-- 最近记录区域 -->
+                <h2 class="mb-4">最近打卡记录</h2>
+                <div id="recent-records"></div>
+            </div>
+
+            <div class="dedication">献给我亲爱的妈妈</div>
+            
+            <!-- 添加记录Modal -->
+            <div class="modal fade" id="recordModal" tabindex="-1" aria-labelledby="recordModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="recordModalLabel">添加记录</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <textarea class="form-control" id="recordContent" rows="5" placeholder="记录一下今天的情况吧..."></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">跳过</button>
+                            <button type="button" class="btn btn-primary" onclick="saveRecord()">保存记录</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 先引入Bootstrap JavaScript库 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- 然后是应用程序JavaScript代码 -->
+    <script>
+        // 定义鼓励语数组（移到最前面）
+        const DEFAULT_ENCOURAGEMENTS = [
+            "你对自己的爱，值得被看见！",
+            "你正在成为你自己！",
+            "你的价值无需任外物来锚定！",
+            "你细心地照顾着自己的每一个需要，你真的很棒！",
+            "你做到了许多人都做不到的事——照顾好自己的健康！",
+            "你认真地对待着自己，你真得很棒！",
+            "你对自己的无条件爱与接纳，令人感动！",
+            "你如此温柔地照顾着自己，你真的很棒！",
+            "无意义的世界上，你的存在即是意义。",
+            "你生而拥有整个世界的爱与值得。"
+        ];
+
+        // 添加默认维度配置
+        const DEFAULT_DIMENSIONS = [
+            {
+                id: 'diet',
+                name: '饮食健康',
+                description: '记录今天的饮食状况'
+            },
+            {
+                id: 'sleep',
+                name: '运动与作息',
+                description: '记录今天的运动和作息情况'
+            },
+            {
+                id: 'mood',
+                name: '情绪管理',
+                description: '记录今天的情绪状态'
+            }
+        ];
+
+        let currentCheckInType = ''; // 当前打卡类型
+
+        // 修改初始化函数
+        function initializeData() {
+            try {
+                // 初始化鼓励语数据和偏好设置
+                if (!localStorage.getItem('encouragementPreference')) {
+                    localStorage.setItem('encouragementPreference', 'default');
+                }
+                
+                // 初始化鼓励语数据
+                if (!localStorage.getItem('encouragements')) {
+                    localStorage.setItem('encouragements', JSON.stringify({
+                        default: DEFAULT_ENCOURAGEMENTS,
+                        custom: []
+                    }));
+                }
+                
+                // 初始化维度数据
+                if (!localStorage.getItem('dimensions')) {
+                    localStorage.setItem('dimensions', JSON.stringify(DEFAULT_DIMENSIONS));
+                }
+
+                // 初始化打卡数据
+                let checkInData = JSON.parse(localStorage.getItem('checkInData'));
+                if (!checkInData || typeof checkInData !== 'object') {
+                    checkInData = {};
+                    const dimensions = JSON.parse(localStorage.getItem('dimensions'));
+                    dimensions.forEach(dim => {
+                        checkInData[dim.id] = [];
+                    });
+                }
+                localStorage.setItem('checkInData', JSON.stringify(checkInData));
+
+                // 初始化记录数据
+                let recordData = JSON.parse(localStorage.getItem('recordData'));
+                if (!recordData || typeof recordData !== 'object') {
+                    recordData = {};
+                }
+                localStorage.setItem('recordData', JSON.stringify(recordData));
+            } catch (error) {
+                console.error('初始化数据时出错:', error);
+                localStorage.setItem('encouragementPreference', 'default');
+                localStorage.setItem('encouragements', JSON.stringify({
+                    default: DEFAULT_ENCOURAGEMENTS,
+                    custom: []
+                }));
+                localStorage.setItem('dimensions', JSON.stringify(DEFAULT_DIMENSIONS));
+                const defaultCheckInData = {};
+                DEFAULT_DIMENSIONS.forEach(dim => {
+                    defaultCheckInData[dim.id] = [];
+                });
+                localStorage.setItem('checkInData', JSON.stringify(defaultCheckInData));
+                localStorage.setItem('recordData', JSON.stringify({}));
+            }
+            
+            updateDisplay();
+        }
+
+        // 添加维度管理相关函数
+        function showDimensionManager() {
+            const dimensions = JSON.parse(localStorage.getItem('dimensions'));
+            const dimensionList = document.getElementById('dimensionList');
+            dimensionList.innerHTML = '';
+            
+            dimensions.forEach((dim, index) => {
+                const dimensionDiv = document.createElement('div');
+                dimensionDiv.className = 'card mb-3';
+                dimensionDiv.innerHTML = `
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control dimension-name" 
+                                    value="${dim.name}" placeholder="维度名称">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control dimension-desc" 
+                                    value="${dim.description}" placeholder="维度描述">
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-danger w-100" 
+                                    onclick="removeDimension(${index})">删除</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                dimensionList.appendChild(dimensionDiv);
+            });
+            
+            const modal = new bootstrap.Modal(document.getElementById('dimensionModal'));
+            modal.show();
+        }
+
+        function addDimension() {
+            const dimensionList = document.getElementById('dimensionList');
+            const newDimension = document.createElement('div');
+            newDimension.className = 'card mb-3';
+            newDimension.innerHTML = `
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control dimension-name" 
+                                placeholder="维度名称">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control dimension-desc" 
+                                placeholder="维度描述">
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-danger w-100" 
+                                onclick="this.closest('.card').remove()">删除</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            dimensionList.appendChild(newDimension);
+        }
+
+        function removeDimension(index) {
+            const dimensions = JSON.parse(localStorage.getItem('dimensions'));
+            if (dimensions.length <= 1) {
+                alert('至少需要保留一个维度！');
+                return;
+            }
+            document.querySelectorAll('#dimensionList .card')[index].remove();
+        }
+
+        function saveDimensions() {
+            const cards = document.querySelectorAll('#dimensionList .card');
+            const newDimensions = Array.from(cards).map((card, index) => ({
+                id: `dim_${index}`,
+                name: card.querySelector('.dimension-name').value,
+                description: card.querySelector('.dimension-desc').value
+            }));
+            
+            if (newDimensions.length === 0) {
+                alert('至少需要一个维度！');
+                return;
+            }
+            
+            // 保存新的维度配置
+            localStorage.setItem('dimensions', JSON.stringify(newDimensions));
+            
+            // 更新打卡数据结构
+            const oldCheckInData = JSON.parse(localStorage.getItem('checkInData'));
+            const newCheckInData = {};
+            newDimensions.forEach(dim => {
+                newCheckInData[dim.id] = oldCheckInData[dim.id] || [];
+            });
+            localStorage.setItem('checkInData', JSON.stringify(newCheckInData));
+            
+            // 关闭模态框并更新显示
+            const modal = bootstrap.Modal.getInstance(document.getElementById('dimensionModal'));
+            modal.hide();
+            updateDisplay();
+        }
+
+        // 修改updateDisplay函数
+        function updateDisplay() {
+            const dimensions = JSON.parse(localStorage.getItem('dimensions'));
+            const data = JSON.parse(localStorage.getItem('checkInData'));
+            const recordData = JSON.parse(localStorage.getItem('recordData'));
+            
+            // 更新维度卡片
+            const cardsContainer = document.querySelector('.row.g-4.mb-5');
+            cardsContainer.innerHTML = '';
+            
+            dimensions.forEach(dim => {
+                const card = document.createElement('div');
+                card.className = 'col-md-4';
+                card.innerHTML = `
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h3>${dim.name}</h3>
+                            <p class="text-muted">${dim.description}</p>
+                            <button class="btn btn-primary" onclick="checkIn('${dim.id}')">打卡</button>
+                            <p class="mt-3">已连续打卡: <span id="${dim.id}-streak">0</span> 天</p>
+                        </div>
+                    </div>
+                `;
+                cardsContainer.appendChild(card);
+                
+                // 更新连续打卡次数
+                const streak = calculateStreak(data[dim.id] || []);
+                document.getElementById(`${dim.id}-streak`).textContent = streak;
+            });
+            
+            // 更新最近记录
+            updateRecentRecords(data, recordData);
+        }
+
+        // 修改updateRecentRecords函数
+        function updateRecentRecords(data, recordData) {
+            const dimensions = JSON.parse(localStorage.getItem('dimensions'));
+            const recentRecords = document.getElementById('recent-records');
+            recentRecords.innerHTML = '';
+            
+            const allDates = new Set();
+            dimensions.forEach(dim => {
+                (data[dim.id] || []).forEach(date => allDates.add(date));
+            });
+            
+            const sortedDates = Array.from(allDates).sort((a, b) => new Date(b) - new Date(a)).slice(0, 5);
+            
+            sortedDates.forEach(date => {
+                const completedDims = dimensions.filter(dim => 
+                    data[dim.id] && data[dim.id].includes(date)
+                );
+                
+                const item = document.createElement('div');
+                item.className = 'card mb-3';
+                item.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">${date}</h5>
+                        <p class="card-text">完成 ${completedDims.map(d => d.name).join('、')} 打卡</p>
+                        ${recordData[date] ? Object.entries(recordData[date]).map(([dimId, content]) => {
+                            const dim = dimensions.find(d => d.id === dimId);
+                            return dim ? `
+                                <p class="mt-2"><strong>${dim.name}记录：</strong> ${content}</p>
+                            ` : '';
+                        }).join('') : ''}
+                    </div>
+                `;
+                recentRecords.appendChild(item);
+            });
+        }
+
+        // 计算连续打卡天数函数
+        function calculateStreak(dates) {
+            // 添加错误检查
+            if (!Array.isArray(dates)) {
+                console.error('无效的日期数组:', dates);
+                return 0;
+            }
+            
+            if (!dates.length) return 0;
+            
+            try {
+                dates.sort((a, b) => new Date(b) - new Date(a));
+                const today = new Date().toISOString().split('T')[0];
+                let streak = 0;
+                let currentDate = new Date(today);
+                
+                for (let date of dates) {
+                    if (date === currentDate.toISOString().split('T')[0]) {
+                        streak++;
+                        currentDate.setDate(currentDate.getDate() - 1);
+                    } else {
+                        break;
+                    }
+                }
+                
+                return streak;
+            } catch (error) {
+                console.error('计算连续天数时出错:', error);
+                return 0;
+            }
+        }
+
+        // 打卡功能函数
+        function checkIn(type) {
+            try {
+                currentCheckInType = type;
+                let data = JSON.parse(localStorage.getItem('checkInData'));
+                
+                // 确保数据结构完整
+                if (!data || typeof data !== 'object') {
+                    data = {};
+                    const dimensions = JSON.parse(localStorage.getItem('dimensions'));
+                    dimensions.forEach(dim => {
+                        data[dim.id] = [];
+                    });
+                }
+                
+                // 确保当前类型的数组存在
+                if (!Array.isArray(data[type])) {
+                    data[type] = [];
+                }
+                
+                const today = new Date().toISOString().split('T')[0];
+                
+                if (!data[type].includes(today)) {
+                    data[type].push(today);
+                    localStorage.setItem('checkInData', JSON.stringify(data));
+                    
+                    const encouragement = getRandomEncouragement();
+                    alert(encouragement);
+                    
+                    try {
+                        console.log('尝试显示Modal...');
+                        const recordModal = document.getElementById('recordModal');
+                        console.log('recordModal元素:', recordModal);
+                        
+                        if (!recordModal) {
+                            console.error('找不到recordModal元素');
+                            return;
+                        }
+                        
+                        console.log('Bootstrap对象:', typeof bootstrap);
+                        const modal = new bootstrap.Modal(recordModal);
+                        console.log('Modal实例:', modal);
+                        
+                        modal.show();
+                        console.log('Modal已显示');
+                    } catch (error) {
+                        console.error('显示Modal时出错:', error);
+                        console.error('错误详情:', error.stack);
+                        alert('打卡成功！');
+                    }
+                } else {
+                    alert('今天已经打过卡啦！');
+                }
+            } catch (error) {
+                console.error('打卡时出错:', error);
+                alert('打卡失败，请刷新页面重试');
+            }
+        }
+
+        // 保存记录函数
+        function saveRecord() {
+            const recordContent = document.getElementById('recordContent').value;
+            const today = new Date().toISOString().split('T')[0];
+            const recordData = JSON.parse(localStorage.getItem('recordData'));
+            
+            if (!recordData[today]) {
+                recordData[today] = {};
+            }
+            recordData[today][currentCheckInType] = recordContent;
+            
+            localStorage.setItem('recordData', JSON.stringify(recordData));
+            
+            // 关闭弹窗
+            const modal = bootstrap.Modal.getInstance(document.getElementById('recordModal'));
+            modal.hide();
+            
+            // 清空输入框
+            document.getElementById('recordContent').value = '';
+            
+            updateDisplay();
+        }
+
+        // 页面加载时初始化
+        window.onload = function() {
+            checkFirstVisit();
+            if (localStorage.getItem('hasVisited')) {
+                initializeData();
+            }
+        };
+
+        let currentGuideStep = 0;
+        const guideDimensions = [];
+        const guideTipsContent = [
+            "选择一个对你来说重要的生活领域，它可以是健康、学习、关系等任何你想要持续关注和改善的方面。",
+            "考虑一个你希望在日常生活中保持追踪的方面，确保这个维度对你的成长有意义。",
+            "最后一个维度，想想是否还有其他重要的生活方面需要关注。"
+        ];
+
+        // 检查是否首次访问
+        function checkFirstVisit() {
+            if (!localStorage.getItem('hasVisited')) {
+                showWelcomeScreen();
+            } else {
+                showMainScreen();
+            }
+        }
+
+        function showWelcomeScreen() {
+            document.getElementById('welcomeScreen').classList.remove('d-none');
+            document.getElementById('guideScreen').classList.add('d-none');
+            document.getElementById('mainScreen').classList.add('d-none');
+        }
+
+        function showGuideScreen() {
+            document.getElementById('welcomeScreen').classList.add('d-none');
+            document.getElementById('guideScreen').classList.remove('d-none');
+            document.getElementById('mainScreen').classList.add('d-none');
+            updateGuideProgress();
+        }
+
+        function showMainScreen() {
+            document.getElementById('welcomeScreen').classList.add('d-none');
+            document.getElementById('guideScreen').classList.add('d-none');
+            document.getElementById('mainScreen').classList.remove('d-none');
+        }
+
+        function startGuide() {
+            currentGuideStep = 0;
+            guideDimensions.length = 0;
+            showGuideScreen();
+        }
+
+        function updateGuideProgress() {
+            const progress = ((currentGuideStep + 1) / 3) * 100;
+            document.getElementById('guideProgress').style.width = `${progress}%`;
+            document.getElementById('currentStep').textContent = currentGuideStep + 1;
+            document.getElementById('guideTips').textContent = guideTipsContent[currentGuideStep];
+            
+            document.getElementById('prevBtn').disabled = currentGuideStep === 0;
+            document.getElementById('nextBtn').textContent = currentGuideStep === 2 ? '完成' : '下一步';
+            
+            // 如果有保存的值，填充表单
+            if (guideDimensions[currentGuideStep]) {
+                document.getElementById('dimensionName').value = guideDimensions[currentGuideStep].name;
+                document.getElementById('dimensionDesc').value = guideDimensions[currentGuideStep].description;
+            } else {
+                document.getElementById('dimensionName').value = '';
+                document.getElementById('dimensionDesc').value = '';
+            }
+        }
+
+        function previousStep() {
+            if (currentGuideStep > 0) {
+                currentGuideStep--;
+                updateGuideProgress();
+            }
+        }
+
+        function nextStep() {
+            const name = document.getElementById('dimensionName').value.trim();
+            const description = document.getElementById('dimensionDesc').value.trim();
+            
+            if (!name) {
+                alert('请输入维度名称');
+                return;
+            }
+            
+            // 保存当前维度
+            guideDimensions[currentGuideStep] = {
+                id: `dim_${currentGuideStep}`,
+                name: name,
+                description: description
+            };
+            
+            if (currentGuideStep < 2) {
+                currentGuideStep++;
+                updateGuideProgress();
+            } else {
+                // 完成引导
+                finishGuide();
+            }
+        }
+
+        function finishGuide() {
+            // 保存维度配置
+            localStorage.setItem('dimensions', JSON.stringify(guideDimensions));
+            
+            // 显示鼓励语选择界面
+            document.getElementById('guideScreen').classList.add('d-none');
+            document.getElementById('encouragementGuide').classList.remove('d-none');
+        }
+
+        // 添加鼓励语管理相关函数
+        function showEncouragementManager() {
+            const encouragements = JSON.parse(localStorage.getItem('encouragements'));
+            
+            // 显示默认鼓励语
+            const defaultList = document.getElementById('defaultEncouragements');
+            defaultList.innerHTML = encouragements.default.map(text => `
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <p class="card-text">${text}</p>
+                        <span class="badge bg-secondary">默认</span>
+                    </div>
+                </div>
+            `).join('');
+            
+            // 显示自定义鼓励语
+            const customList = document.getElementById('customEncouragements');
+            customList.innerHTML = encouragements.custom.map((text, index) => `
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="card-text mb-0">${text}</p>
+                            <button class="btn btn-sm btn-danger" 
+                                onclick="removeEncouragement(${index})">删除</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            const modal = new bootstrap.Modal(document.getElementById('encouragementModal'));
+            modal.show();
+        }
+
+        function addCustomEncouragement() {
+            const text = prompt('请输入新的鼓励语：');
+            if (text && text.trim()) {
+                const encouragements = JSON.parse(localStorage.getItem('encouragements'));
+                encouragements.custom.push(text.trim());
+                localStorage.setItem('encouragements', JSON.stringify(encouragements));
+                showEncouragementManager();
+            }
+        }
+
+        function removeEncouragement(index) {
+            const encouragements = JSON.parse(localStorage.getItem('encouragements'));
+            encouragements.custom.splice(index, 1);
+            localStorage.setItem('encouragements', JSON.stringify(encouragements));
+            showEncouragementManager();
+        }
+
+        // 修改获取随机鼓励语的函数
+        function getRandomEncouragement() {
+            const encouragements = JSON.parse(localStorage.getItem('encouragements'));
+            const preference = localStorage.getItem('encouragementPreference');
+            
+            if (preference === 'custom' && encouragements.custom.length > 0) {
+                // 只从自定义鼓励语中选择
+                return encouragements.custom[Math.floor(Math.random() * encouragements.custom.length)];
+            } else {
+                // 使用默认鼓励语
+                return encouragements.default[Math.floor(Math.random() * encouragements.default.length)];
+            }
+        }
+
+        // 在finishGuide函数后添加
+        function chooseDefaultEncouragements() {
+            localStorage.setItem('encouragementPreference', 'default');
+            completeSetup();
+        }
+
+        function chooseCustomEncouragements() {
+            // 确保encouragements数据已初始化
+            if (!localStorage.getItem('encouragements')) {
+                localStorage.setItem('encouragements', JSON.stringify({
+                    default: DEFAULT_ENCOURAGEMENTS,
+                    custom: []
+                }));
+            }
+            
+            document.getElementById('encouragementGuide').classList.add('d-none');
+            document.getElementById('customEncouragementGuide').classList.remove('d-none');
+            updateCustomEncouragementsList();
+        }
+
+        function addCustomEncouragementInGuide() {
+            const text = prompt('请输入新的鼓励语：');
+            if (text && text.trim()) {
+                let encouragements = JSON.parse(localStorage.getItem('encouragements'));
+                if (!encouragements) {
+                    encouragements = {
+                        default: DEFAULT_ENCOURAGEMENTS,
+                        custom: []
+                    };
+                }
+                encouragements.custom.push(text.trim());
+                localStorage.setItem('encouragements', JSON.stringify(encouragements));
+                updateCustomEncouragementsList();
+            }
+        }
+
+        function updateCustomEncouragementsList() {
+            let encouragements = JSON.parse(localStorage.getItem('encouragements'));
+            if (!encouragements) {
+                encouragements = {
+                    default: DEFAULT_ENCOURAGEMENTS,
+                    custom: []
+                };
+                localStorage.setItem('encouragements', JSON.stringify(encouragements));
+            }
+            
+            const list = document.getElementById('customEncouragementsList');
+            list.innerHTML = encouragements.custom.map((text, index) => `
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="card-text mb-0">${text}</p>
+                            <button class="btn btn-sm btn-danger" 
+                                onclick="removeCustomEncouragementInGuide(${index})">删除</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // 更新完成按钮状态
+            document.getElementById('finishEncouragementBtn').disabled = 
+                encouragements.custom.length < 3;
+        }
+
+        function removeCustomEncouragementInGuide(index) {
+            let encouragements = JSON.parse(localStorage.getItem('encouragements'));
+            if (!encouragements) {
+                encouragements = {
+                    default: DEFAULT_ENCOURAGEMENTS,
+                    custom: []
+                };
+            }
+            encouragements.custom.splice(index, 1);
+            localStorage.setItem('encouragements', JSON.stringify(encouragements));
+            updateCustomEncouragementsList();
+        }
+
+        function backToEncouragementChoice() {
+            document.getElementById('customEncouragementGuide').classList.add('d-none');
+            document.getElementById('encouragementGuide').classList.remove('d-none');
+        }
+
+        function finishCustomEncouragements() {
+            let encouragements = JSON.parse(localStorage.getItem('encouragements'));
+            if (!encouragements || !encouragements.custom || encouragements.custom.length < 3) {
+                alert('请至少添加3条鼓励语');
+                return;
+            }
+            
+            localStorage.setItem('encouragementPreference', 'custom');
+            completeSetup();
+        }
+
+        function completeSetup() {
+            localStorage.setItem('hasVisited', 'true');
+            
+            // 初始化其他数据
+            const checkInData = {};
+            guideDimensions.forEach(dim => {
+                checkInData[dim.id] = [];
+            });
+            localStorage.setItem('checkInData', JSON.stringify(checkInData));
+            localStorage.setItem('recordData', JSON.stringify({}));
+            
+            // 显示主界面
+            showMainScreen();
+            updateDisplay();
+        }
+    </script>
+
+    <!-- 在body末尾添加维度管理模态框 -->
+    <div class="modal fade" id="dimensionModal" tabindex="-1" aria-labelledby="dimensionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dimensionModalLabel">管理维度</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="dimensionList" class="mb-3">
+                        <!-- 维度列表将通过JavaScript动态生成 -->
+                    </div>
+                    <button class="btn btn-outline-primary" onclick="addDimension()">
+                        添加新维度
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="saveDimensions()">保存更改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 在body末尾添加鼓励语管理模态框 -->
+    <div class="modal fade" id="encouragementModal" tabindex="-1" aria-labelledby="encouragementModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="encouragementModalLabel">管理鼓励语</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <button class="btn btn-outline-primary" onclick="addCustomEncouragement()">
+                            添加自定义鼓励语
+                        </button>
+                    </div>
+                    <div class="encouragement-lists">
+                        <h6 class="mb-3">默认鼓励语</h6>
+                        <div id="defaultEncouragements" class="mb-4"></div>
+                        
+                        <h6 class="mb-3">自定义鼓励语</h6>
+                        <div id="customEncouragements"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="saveEncouragements()">保存更改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

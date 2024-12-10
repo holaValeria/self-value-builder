@@ -1,0 +1,541 @@
+<!DOCTYPE html> <!-- 声明文档类型为HTML5 -->
+<html lang="zh"> <!-- HTML文档开始，设置语言为中文 -->
+<head> <!-- 头部区域，包含页面的元信息和资源引用 -->
+    <meta charset="UTF-8"> <!-- 设置字符编码为UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 设置移动设备的视口 -->
+    <title>自我价值构建器</title> <!-- 设置页面标题 -->
+    <!-- 引入Bootstrap CSS框架 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 引入Google字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan_Zheng&family=Noto+Serif+SC&display=swap" rel="stylesheet">
+    <style>
+        /* 设置页面整体样式 */
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #fff5e6;
+            color: #5d4037;
+        }
+        
+        /* 容器样式 */
+        .container {
+            background-color: #fff9f0;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-top: 50px;
+        }
+        h1 { /* 标题样式 */
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #ff7043;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .card { /* 卡片样式 */
+            background-color: #ffffff;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease; /* 过渡动画效果 */
+        }
+        .card:hover { /* 卡片悬停效果 */
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        .card-body { /* 卡片内容区域样式 */
+            padding: 25px;
+        }
+        .btn-primary { /* 主要按钮样式 */
+            background-color: #ff7043;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover { /* 按钮悬停效果 */
+            background-color: #f4511e;
+            transform: scale(1.05);
+        }
+        #recent-records { /* 最近记录区域样式 */
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .modal-content { /* 模态框样式 */
+            background-color: #fff9f0;
+            border-radius: 15px;
+        }
+        .modal-header { /* 模态框头部样式 */
+            border-bottom: none;
+        }
+        .modal-footer { /* 模态框底部样式 */
+            border-top: none;
+        }
+        .form-control { /* 表单控件样式 */
+            background-color: #ffffff;
+            border: 1px solid #ffd8a8;
+            border-radius: 10px;
+        }
+        .form-control:focus { /* 表单控件焦点样式 */
+            border-color: #ff7043;
+            box-shadow: 0 0 0 0.2rem rgba(255,112,67,0.25);
+        }
+        .dedication { /* 献词样式 */
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #ff7043;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 24px;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body> <!-- 页面主体开始 -->
+    <div class="container py-5"> <!-- 主容器 -->
+        <h1>自我价值构建器</h1>
+        
+        <div class="text-end mb-4">
+            <button class="btn btn-outline-primary" onclick="showDimensionManager()">
+                管理维度
+            </button>
+        </div>
+        
+        <div class="row g-4 mb-5"> <!-- 打卡卡片行 -->
+            <div class="col-md-4"> <!-- 饮食健康卡片 -->
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h3>饮食健康</h3>
+                        <p class="text-muted">记录今天的饮食状况</p>
+                        <button class="btn btn-primary" onclick="checkIn('diet')">打卡</button>
+                        <p class="mt-3">已连续打卡: <span id="diet-streak">0</span> 天</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4"> <!-- 作息规律卡片 -->
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h3>运动与作息</h3>
+                        <p class="text-muted">记录今天的运动和作息情况</p>
+                        <button class="btn btn-primary" onclick="checkIn('sleep')">打卡</button>
+                        <p class="mt-3">已连续打卡: <span id="sleep-streak">0</span> 天</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4"> <!-- 情绪管理卡片 -->
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h3>情绪管理</h3>
+                        <p class="text-muted">记录今天的情绪状态</p>
+                        <button class="btn btn-primary" onclick="checkIn('mood')">打卡</button>
+                        <p class="mt-3">已连续打卡: <span id="mood-streak">0</span> 天</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5"> <!-- 最近记录区域 -->
+            <h2 class="mb-4">最近打卡记录</h2>
+            <div id="recent-records"></div>
+        </div>
+
+        <div class="dedication">献给我亲爱的妈妈</div>
+        
+        <!-- 添加记录Modal -->
+        <div class="modal fade" id="recordModal" tabindex="-1" aria-labelledby="recordModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="recordModalLabel">添加记录</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea class="form-control" id="recordContent" rows="5" placeholder="记录一下今天的情况吧..."></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">跳过</button>
+                        <button type="button" class="btn btn-primary" onclick="saveRecord()">保存记录</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 先引入Bootstrap JavaScript库 -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- 然后是应用程序JavaScript代码 -->
+        <script>
+            // 添加默认维度配置
+            const DEFAULT_DIMENSIONS = [
+                {
+                    id: 'diet',
+                    name: '饮食健康',
+                    description: '记录今天的饮食状况'
+                },
+                {
+                    id: 'sleep',
+                    name: '运动与作息',
+                    description: '记录今天的运动和作息情况'
+                },
+                {
+                    id: 'mood',
+                    name: '情绪管理',
+                    description: '记录今天的情绪状态'
+                }
+            ];
+
+            let currentCheckInType = ''; // 当前打卡类型
+
+            // 修改初始化函数
+            function initializeData() {
+                try {
+                    // 初始化维度数据
+                    if (!localStorage.getItem('dimensions')) {
+                        localStorage.setItem('dimensions', JSON.stringify(DEFAULT_DIMENSIONS));
+                    }
+
+                    // 初始化打卡数据
+                    let checkInData = JSON.parse(localStorage.getItem('checkInData'));
+                    if (!checkInData || typeof checkInData !== 'object') {
+                        checkInData = {};
+                        const dimensions = JSON.parse(localStorage.getItem('dimensions'));
+                        dimensions.forEach(dim => {
+                            checkInData[dim.id] = [];
+                        });
+                    }
+                    localStorage.setItem('checkInData', JSON.stringify(checkInData));
+
+                    // 初始化记录数据
+                    let recordData = JSON.parse(localStorage.getItem('recordData'));
+                    if (!recordData || typeof recordData !== 'object') {
+                        recordData = {};
+                    }
+                    localStorage.setItem('recordData', JSON.stringify(recordData));
+                } catch (error) {
+                    console.error('初始化��据时出错:', error);
+                    localStorage.setItem('dimensions', JSON.stringify(DEFAULT_DIMENSIONS));
+                    const defaultCheckInData = {};
+                    DEFAULT_DIMENSIONS.forEach(dim => {
+                        defaultCheckInData[dim.id] = [];
+                    });
+                    localStorage.setItem('checkInData', JSON.stringify(defaultCheckInData));
+                    localStorage.setItem('recordData', JSON.stringify({}));
+                }
+                
+                updateDisplay();
+            }
+
+            // 添加维度管理相关函数
+            function showDimensionManager() {
+                const dimensions = JSON.parse(localStorage.getItem('dimensions'));
+                const dimensionList = document.getElementById('dimensionList');
+                dimensionList.innerHTML = '';
+                
+                dimensions.forEach((dim, index) => {
+                    const dimensionDiv = document.createElement('div');
+                    dimensionDiv.className = 'card mb-3';
+                    dimensionDiv.innerHTML = `
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control dimension-name" 
+                                        value="${dim.name}" placeholder="维度名称">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control dimension-desc" 
+                                        value="${dim.description}" placeholder="维度描述">
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-danger w-100" 
+                                        onclick="removeDimension(${index})">删除</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    dimensionList.appendChild(dimensionDiv);
+                });
+                
+                const modal = new bootstrap.Modal(document.getElementById('dimensionModal'));
+                modal.show();
+            }
+
+            function addDimension() {
+                const dimensionList = document.getElementById('dimensionList');
+                const newDimension = document.createElement('div');
+                newDimension.className = 'card mb-3';
+                newDimension.innerHTML = `
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control dimension-name" 
+                                    placeholder="维度名称">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control dimension-desc" 
+                                    placeholder="维度描述">
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-danger w-100" 
+                                    onclick="this.closest('.card').remove()">删除</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                dimensionList.appendChild(newDimension);
+            }
+
+            function removeDimension(index) {
+                const dimensions = JSON.parse(localStorage.getItem('dimensions'));
+                if (dimensions.length <= 1) {
+                    alert('至少需要保留一个维度！');
+                    return;
+                }
+                document.querySelectorAll('#dimensionList .card')[index].remove();
+            }
+
+            function saveDimensions() {
+                const cards = document.querySelectorAll('#dimensionList .card');
+                const newDimensions = Array.from(cards).map((card, index) => ({
+                    id: `dim_${index}`,
+                    name: card.querySelector('.dimension-name').value,
+                    description: card.querySelector('.dimension-desc').value
+                }));
+                
+                if (newDimensions.length === 0) {
+                    alert('至少需要一个维度！');
+                    return;
+                }
+                
+                // 保存新的维度配置
+                localStorage.setItem('dimensions', JSON.stringify(newDimensions));
+                
+                // 更新打卡数据结构
+                const oldCheckInData = JSON.parse(localStorage.getItem('checkInData'));
+                const newCheckInData = {};
+                newDimensions.forEach(dim => {
+                    newCheckInData[dim.id] = oldCheckInData[dim.id] || [];
+                });
+                localStorage.setItem('checkInData', JSON.stringify(newCheckInData));
+                
+                // 关闭模态框并更新显示
+                const modal = bootstrap.Modal.getInstance(document.getElementById('dimensionModal'));
+                modal.hide();
+                updateDisplay();
+            }
+
+            // 修改updateDisplay函数
+            function updateDisplay() {
+                const dimensions = JSON.parse(localStorage.getItem('dimensions'));
+                const data = JSON.parse(localStorage.getItem('checkInData'));
+                const recordData = JSON.parse(localStorage.getItem('recordData'));
+                
+                // 更新维度卡片
+                const cardsContainer = document.querySelector('.row.g-4.mb-5');
+                cardsContainer.innerHTML = '';
+                
+                dimensions.forEach(dim => {
+                    const card = document.createElement('div');
+                    card.className = 'col-md-4';
+                    card.innerHTML = `
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <h3>${dim.name}</h3>
+                                <p class="text-muted">${dim.description}</p>
+                                <button class="btn btn-primary" onclick="checkIn('${dim.id}')">打卡</button>
+                                <p class="mt-3">已连续打卡: <span id="${dim.id}-streak">0</span> 天</p>
+                            </div>
+                        </div>
+                    `;
+                    cardsContainer.appendChild(card);
+                    
+                    // 更新连续打卡次数
+                    const streak = calculateStreak(data[dim.id] || []);
+                    document.getElementById(`${dim.id}-streak`).textContent = streak;
+                });
+                
+                // 更新最近记录
+                updateRecentRecords(data, recordData);
+            }
+
+            // 修改updateRecentRecords函数
+            function updateRecentRecords(data, recordData) {
+                const dimensions = JSON.parse(localStorage.getItem('dimensions'));
+                const recentRecords = document.getElementById('recent-records');
+                recentRecords.innerHTML = '';
+                
+                const allDates = new Set();
+                dimensions.forEach(dim => {
+                    (data[dim.id] || []).forEach(date => allDates.add(date));
+                });
+                
+                const sortedDates = Array.from(allDates).sort((a, b) => new Date(b) - new Date(a)).slice(0, 5);
+                
+                sortedDates.forEach(date => {
+                    const completedDims = dimensions.filter(dim => 
+                        data[dim.id] && data[dim.id].includes(date)
+                    );
+                    
+                    const item = document.createElement('div');
+                    item.className = 'card mb-3';
+                    item.innerHTML = `
+                        <div class="card-body">
+                            <h5 class="card-title">${date}</h5>
+                            <p class="card-text">完成 ${completedDims.map(d => d.name).join('、')} 打卡</p>
+                            ${recordData[date] ? Object.entries(recordData[date]).map(([dimId, content]) => {
+                                const dim = dimensions.find(d => d.id === dimId);
+                                return dim ? `
+                                    <p class="mt-2"><strong>${dim.name}记录：</strong> ${content}</p>
+                                ` : '';
+                            }).join('') : ''}
+                        </div>
+                    `;
+                    recentRecords.appendChild(item);
+                });
+            }
+
+            // 计算连续打卡天数函数
+            function calculateStreak(dates) {
+                // 添加错误检查
+                if (!Array.isArray(dates)) {
+                    console.error('无效的日期数组:', dates);
+                    return 0;
+                }
+                
+                if (!dates.length) return 0;
+                
+                try {
+                    dates.sort((a, b) => new Date(b) - new Date(a));
+                    const today = new Date().toISOString().split('T')[0];
+                    let streak = 0;
+                    let currentDate = new Date(today);
+                    
+                    for (let date of dates) {
+                        if (date === currentDate.toISOString().split('T')[0]) {
+                            streak++;
+                            currentDate.setDate(currentDate.getDate() - 1);
+                        } else {
+                            break;
+                        }
+                    }
+                    
+                    return streak;
+                } catch (error) {
+                    console.error('计算连续天数时出错:', error);
+                    return 0;
+                }
+            }
+
+            // 打卡功能函数
+            function checkIn(type) {
+                try {
+                    currentCheckInType = type;
+                    let data = JSON.parse(localStorage.getItem('checkInData'));
+                    
+                    // 确保数据结构完整
+                    if (!data || typeof data !== 'object') {
+                        data = {};
+                        const dimensions = JSON.parse(localStorage.getItem('dimensions'));
+                        dimensions.forEach(dim => {
+                            data[dim.id] = [];
+                        });
+                    }
+                    
+                    // 确保当前类型的数组存在
+                    if (!Array.isArray(data[type])) {
+                        data[type] = [];
+                    }
+                    
+                    const today = new Date().toISOString().split('T')[0];
+                    
+                    if (!data[type].includes(today)) {
+                        data[type].push(today);
+                        localStorage.setItem('checkInData', JSON.stringify(data));
+                        
+                        const encouragement = DEFAULT_ENCOURAGEMENTS[Math.floor(Math.random() * DEFAULT_ENCOURAGEMENTS.length)];
+                        alert(encouragement);
+                        
+                        try {
+                            console.log('尝试显示Modal...');
+                            const recordModal = document.getElementById('recordModal');
+                            console.log('recordModal元素:', recordModal);
+                            
+                            if (!recordModal) {
+                                console.error('找不到recordModal元素');
+                                return;
+                            }
+                            
+                            console.log('Bootstrap对象:', typeof bootstrap);
+                            const modal = new bootstrap.Modal(recordModal);
+                            console.log('Modal实例:', modal);
+                            
+                            modal.show();
+                            console.log('Modal已显示');
+                        } catch (error) {
+                            console.error('显示Modal时出错:', error);
+                            console.error('错误详情:', error.stack);
+                            alert('打卡成功！');
+                        }
+                    } else {
+                        alert('今天已经打过卡啦！');
+                    }
+                } catch (error) {
+                    console.error('打卡时出错:', error);
+                    alert('打卡失败，请刷新页面重试');
+                }
+            }
+
+            // 保存记录函数
+            function saveRecord() {
+                const recordContent = document.getElementById('recordContent').value;
+                const today = new Date().toISOString().split('T')[0];
+                const recordData = JSON.parse(localStorage.getItem('recordData'));
+                
+                if (!recordData[today]) {
+                    recordData[today] = {};
+                }
+                recordData[today][currentCheckInType] = recordContent;
+                
+                localStorage.setItem('recordData', JSON.stringify(recordData));
+                
+                // 关闭弹窗
+                const modal = bootstrap.Modal.getInstance(document.getElementById('recordModal'));
+                modal.hide();
+                
+                // 清空输入框
+                document.getElementById('recordContent').value = '';
+                
+                updateDisplay();
+            }
+
+            // 页面加载时初始化
+            window.onload = initializeData;
+        </script>
+
+        <!-- 在body末尾添加维度管理模态框 -->
+        <div class="modal fade" id="dimensionModal" tabindex="-1" aria-labelledby="dimensionModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="dimensionModalLabel">管理维度</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="dimensionList" class="mb-3">
+                            <!-- 维度列表将通过JavaScript动态生成 -->
+                        </div>
+                        <button class="btn btn-outline-primary" onclick="addDimension()">
+                            添加新维度
+                        </button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" onclick="saveDimensions()">保存更改</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

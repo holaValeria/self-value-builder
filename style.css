@@ -1,0 +1,151 @@
+/* 设置页面整体样式 */
+body {
+    font-family: 'Noto Serif SC', serif;
+    background-color: #fff5e6;
+    color: #5d4037;
+}
+
+/* 容器样式 */
+.container {
+    background-color: #fff9f0;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-top: 50px;
+}
+
+/* 标题样式 */
+h1 {
+    font-family: 'Ma Shan Zheng', cursive;
+    color: #ff7043;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* 卡片样式 */
+.card {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* 卡片内容区域样式 */
+.card-body {
+    padding: 25px;
+}
+
+/* 主要按钮样式 */
+.btn-primary {
+    background-color: #ff7043;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #f4511e;
+    transform: scale(1.05);
+}
+
+/* 最近记录区域样式 */
+#recent-records {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* 模态框样式 */
+.modal-content {
+    background-color: #fff9f0;
+    border-radius: 15px;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+/* 表单控件样式 */
+.form-control {
+    background-color: #ffffff;
+    border: 1px solid #ffd8a8;
+    border-radius: 10px;
+}
+
+.form-control:focus {
+    border-color: #ff7043;
+    box-shadow: 0 0 0 0.2rem rgba(255,112,67,0.25);
+}
+
+/* 献词样式 */
+.dedication {
+    font-family: 'Ma Shan Zheng', cursive;
+    color: #ff7043;
+    text-align: center;
+    margin-top: 40px;
+    font-size: 24px;
+    opacity: 0.9;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* 欢迎界面样式 */
+.welcome-screen {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.feature-list {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.feature-list li {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+/* 引导界面样式 */
+.guide-screen {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.dimension-guide {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.guide-tips {
+    background-color: #fff5e6;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+/* 进度条样式 */
+.progress {
+    height: 8px;
+    border-radius: 4px;
+}
+
+.progress-bar {
+    background-color: #ff7043;
+    transition: width 0.3s ease;
+} 
