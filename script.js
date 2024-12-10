@@ -308,7 +308,17 @@ function completeSetup() {
 
 // 获取随机鼓励语
 function getRandomEncouragement() {
-    const encouragements = JSON.parse(localStorage.getItem('encouragements'));
+    let encouragements = JSON.parse(localStorage.getItem('encouragements'));
+    
+    // 检查并初始化encouragements数据
+    if (!encouragements || !encouragements.default) {
+        encouragements = {
+            default: DEFAULT_ENCOURAGEMENTS,
+            custom: []
+        };
+        localStorage.setItem('encouragements', JSON.stringify(encouragements));
+    }
+    
     const preference = localStorage.getItem('encouragementPreference');
     
     if (preference === 'custom' && encouragements.custom.length > 0) {
